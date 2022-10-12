@@ -32,6 +32,7 @@ set(HEADERS
   include/ze/common/config.hpp
   include/ze/common/combinatorics.hpp
   include/ze/common/csv_trajectory.hpp
+  include/ze/common/csv_trajectory_rotvec.hpp
   include/ze/common/file_utils.hpp
   include/ze/common/logging.hpp
   include/ze/common/macros.hpp
@@ -70,6 +71,7 @@ set(HEADERS
 
 set(SOURCES
   src/csv_trajectory.cpp
+  src/csv_trajectory_rotvec.cpp
   src/matrix.cpp
   src/random.cpp
   src/signal_handler.cpp
