@@ -64,13 +64,35 @@ namespace sm {
 
 class RotationVector {
 public:
-  RotationVector(const Vector3& v): v_(v) {}
+  RotationVector(const Vector3& v)
+  {
+    /**
+     * NOTE:
+     *  Temporary fix for incorrect "inversed/transposed" implementation of
+     *  getRotationMatrix(), toSMatrix(), parametersToInverseSMatrix() &
+     *  getParametersFromMatrix(). angularVelocityAndJacobian() is to be
+     *  confirmed.
+     */
+    const Vector3 inverse_v = -v;
+    v_ = inverse_v;
+  }
   RotationVector(const Matrix3& C): v_(getParametersFromMatrix(C))
-  {}
+  {
+    /**
+     * NOTE:
+     *  Temporary fix for incorrect "inversed/transposed" implementation of
+     *  getRotationMatrix(), toSMatrix(), parametersToInverseSMatrix() &
+     *  getParametersFromMatrix(). angularVelocityAndJacobian() is to be
+     *  confirmed.
+     */
+    const Vector3 inverse_v = getParametersFromMatrix(C);
+    v_ = inverse_v;
+  }
 
   const Vector3 getParameters() const
   {
-    return v_;
+    const Vector3 true_v = -v_;
+    return true_v;
   }
 
   Matrix3 getRotationMatrix() const

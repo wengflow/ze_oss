@@ -270,7 +270,18 @@ Vector3 BSplinePoseMinimal<RP>::angularVelocity(real_t tk) const
   RP rp(Vector3(r.tail<3>()));
   Matrix3 S = rp.toSMatrix();
 
-  omega = -S * v.tail<3>();
+  /**
+   * NOTE:
+   *  Presumed bug fix (ie. TBC) for negated angular velocity, coupled with
+   *  incorrect "inversed" implementation of RotationVector.getRotationMatrix(),
+   *  toSMatrix(), parametersToInverseSMatrix() & getParametersFromMatrix().
+   *  angularVelocityAndJacobian() is to be confirmed.
+   * 
+   * TODO:
+   *  Check for other bugs in this class.
+   */
+  // omega = -S * v.tail<3>();
+  omega = S * v.tail<3>();
   return omega;
 }
 
@@ -288,7 +299,18 @@ Vector3 BSplinePoseMinimal<RP>::angularVelocityBodyFrame(real_t tk) const
 
   // \omega = S(\bar \theta) \dot \theta
   S = rp.toSMatrix();
-  omega = -C_w_b.transpose() * S * v.tail<3>();
+  /**
+   * NOTE:
+   *  Presumed bug fix (ie. TBC) for negated angular velocity, coupled with
+   *  incorrect "inversed" implementation of RotationVector.getRotationMatrix(),
+   *  toSMatrix(), parametersToInverseSMatrix() & getParametersFromMatrix().
+   *  angularVelocityAndJacobian() is to be confirmed.
+   * 
+   * TODO:
+   *  Check for other bugs in this class.
+   */
+  // omega = -C_w_b.transpose() * S * v.tail<3>();
+  omega = C_w_b.transpose() * S * v.tail<3>();
 
   return omega;
 }
